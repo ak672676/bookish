@@ -6,7 +6,8 @@ CPAD Assignment Repository - Group 10
 Breview allows people to share their thoughts about their recent reads. Also helps users to find what their friends are reading, and their review about the picks.
 Which allows them to pick their next read.
 
-<img src="https://github.com/CPAD2021SecB/Group10/raw/main/Breview_icon.png?raw=true" alt="alt text" style=" height: 20%; align-item : center ; display : flex; width: auto">
+<img align="center" src="https://github.com/CPAD2021SecB/Group10/raw/main/Breview_icon.png?raw=true" alt="Breview Logo"  >
+
 
 ### Team Members:
 
