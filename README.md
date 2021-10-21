@@ -3,7 +3,10 @@
 CPAD Assignment Repository - Group 10
 
 ## BREVIEW App
-Breview is a "BOOK Review" App which allows people to share their reviews/blogs for the recent reads. 
+Breview allows people to share their thoughts about their recent reads. Also helps users to find what their friends are reading, and their review about the picks.
+Which allows them to pick their next read.
+
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 ### Team Members:
 
