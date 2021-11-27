@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OTPPageWidget extends StatefulWidget {
-  OTPPageWidget({Key key}) : super(key: key);
+class PhoneloginWidget extends StatefulWidget {
+  PhoneloginWidget({Key key}) : super(key: key);
 
   @override
-  _OTPPageWidgetState createState() => _OTPPageWidgetState();
+  _PhoneloginWidgetState createState() => _PhoneloginWidgetState();
 }
 
-class _OTPPageWidgetState extends State<OTPPageWidget> {
+class _PhoneloginWidgetState extends State<PhoneloginWidget> {
   TextEditingController phoneNumberController;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -30,14 +30,15 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 1,
           decoration: BoxDecoration(
+            // color: Color(0xFF262D34),
             color: Colors.black,
+
             image: DecorationImage(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.topCenter,
-              image: Image.asset(
-                'assets/images/otpImage.png',
-              ).image,
-            ),
+                fit: BoxFit.scaleDown,
+                image: Image.asset(
+                  'assets/images/mobile_login.png',
+                ).image,
+                alignment: Alignment.topCenter),
           ),
           child: Align(
             alignment: AlignmentDirectional(0, 1),
@@ -109,7 +110,7 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                             ),
                             Expanded(
                               child: Text(
-                                'Verify Code',
+                                'Phone Sign In',
                                 style: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Colors.white,
@@ -130,7 +131,21 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                             Expanded(
                               child: TextFormField(
                                 controller: phoneNumberController,
+                                obscureText: false,
                                 decoration: InputDecoration(
+                                  labelText: 'Your Phone Number...',
+                                  labelStyle: TextStyle(
+                                    color: Color(0xFF95A1AC),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  hintText: '9457273074',
+                                  hintStyle: TextStyle(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Color(0xFF95A1AC),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: BorderSide(
@@ -145,24 +160,21 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                                       width: 2.0,
                                     ),
                                   ),
-                                  label: Text(
-                                    'OTP',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 8,
-                                    ),
-                                  ),
+                                  filled: true,
+                                  // fillColor: Colors.white,
+
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          16, 24, 0, 24),
                                 ),
                                 style: TextStyle(
+                                  fontFamily: 'Lexend Deca',
                                   color: Colors.white,
                                   fontSize: 24,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.normal,
                                 ),
-                                obscureText: false,
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),
@@ -174,10 +186,10 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                print('Button pressed ...');
+                                print('OTP Button pressed ...');
                               },
                               child: Text(
-                                'Resend Code',
+                                'Send OTP',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

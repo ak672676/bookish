@@ -1,0 +1,23 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "reviewerId": "iuiiouoiuh",
+      "reviewerProfileName": "ak672676",
+      "reviewerProfileImage": "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+      "likes": ["jlkjkl", "lkjlkjlk", "kjhkjhkj"],
+      "review": "This is a very good book",
+      "comments": ["hkuhkhkj", "hkuhkhkj", "hkuhkhkj"],
+      "bookImage": "https://5.imimg.com/data5/WC/ML/MY-68231406/romantic-novels-500x500.jpg"
+    },{
+      "id": 2,
+      "reviewerId": "iukjhouoiuh",
+      "reviewerProfileName": "rajat_jha223",
+      "reviewerProfileImage": "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+      "likes": ["jlkjkl", "lkjlkjlk", "kjhkjhkj"],
+      "review": "This is a very good book",
+      "comments": ["hkuhkhkj", "hkuhkhkj", "hkuhkhkj"],
+      "bookId": "https://bestlifeonline.com/wp-content/uploads/sites/3/2020/10/Harry-Potter-and-the-Chamber-of-Secrets-book-cover.jpg"
+    }
+  ]
+}

@@ -1,4 +1,9 @@
+import 'package:breview/pages/friends_list_page.dart';
+import 'package:breview/pages/friends_profile_page.dart';
+import 'package:breview/pages/home_page.dart';
 import 'package:breview/pages/otp_page.dart';
+import 'package:breview/pages/phone_login_page.dart';
+import 'package:breview/pages/test_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,7 +28,16 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: OTPPageWidget(),
+      // home: FriendsWidget(),
+      home: TestPage(),
+      // home: MainPageWidget(),
+
+      // home: FriendProfileWidget(),
+
+      // home: PhoneloginWidget(),
+
+      // home: OTPPageWidget(),
+
       // home: MyHomePage(title: 'Flutter Demo Home Page '),
     );
   }
