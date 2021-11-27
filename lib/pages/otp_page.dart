@@ -35,9 +35,9 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
           decoration: BoxDecoration(
             color: Color(0xFF262D34),
             image: DecorationImage(
-              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
               image: Image.asset(
-                'assets/images/robinPhoneBG.png',
+                'assets/images/otpImage.png',
               ).image,
             ),
           ),
@@ -132,9 +132,39 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                             Expanded(
                               child: TextFormField(
                                 controller: phoneNumberController,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.amber[600],
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.amber[600],
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  label: Text(
+                                    'OTP',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 8,
+                                    ),
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w400,
+                                ),
                                 obscureText: false,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -150,6 +180,14 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                               },
                               child: Text(
                                 'Resend Code',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.amber[700]),
                               ),
                             )
                           ],
