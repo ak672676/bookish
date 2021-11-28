@@ -1,13 +1,39 @@
+import 'dart:convert';
+
+import 'package:breview/models/review.dart';
 import 'package:breview/widgets/reviewItem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class TestPage extends StatelessWidget {
+class TestPage extends StatefulWidget {
   const TestPage({Key key}) : super(key: key);
+
+  @override
+  State<TestPage> createState() => _TestPageState();
+}
+
+class _TestPageState extends State<TestPage> {
+  List<Review> reviews = [];
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  // Future<List<Review>> loadData() async {
+  loadData() async {
+    final jsonData =
+        await rootBundle.loadString("assets/files/reviewData.json");
+    final list = json.decode(jsonData) as List<dynamic>;
+    reviews = list.map((e) => Review.fromJson(e)).toList();
+    setState(() {});
+    print(reviews);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black,
+      color: Colors.black12,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -83,10 +109,12 @@ class TestPage extends StatelessWidget {
                 ),
               ),
             ),
-            ReviewItem(),
-            ReviewItem(),
-            ReviewItem(),
-            ReviewItem()
+            ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: reviews.length,
+                itemBuilder: (context, index) =>
+                    ReviewItem(review: reviews[index]))
           ],
         )),
       ),

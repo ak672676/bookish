@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "639967591249",
+    "project_id": "breview-74e46",
+    "storage_bucket": "breview-74e46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639967591249:android:6f4862434db620ae4c3170",
+        "android_client_info": {
+          "package_name": "com.cpad.breview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639967591249-f7dnjuineldggbfre6k9b81vbk6hed9u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpad.breview",
+            "certificate_hash": "c5b0ff3a113c901a0e0afc4257e5b19c46cdf471"
+          }
+        },
+        {
+          "client_id": "639967591249-84f3c9shq3kppvnjf4mqm2l67ktcp1nv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5ItuDogDRIAFIrlmZbGnkBBvUlibSdI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639967591249-84f3c9shq3kppvnjf4mqm2l67ktcp1nv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

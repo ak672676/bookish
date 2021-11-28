@@ -1,27 +1,34 @@
 import 'package:badges/badges.dart';
+import 'package:breview/models/review.dart';
 import "package:flutter/material.dart";
 
 class ReviewItem extends StatelessWidget {
-  const ReviewItem({Key key}) : super(key: key);
+  final Review review;
+  const ReviewItem({Key key, this.review})
+      : assert(review != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.black,
+      elevation: 4,
+      shadowColor: Colors.amber[400],
       child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Column(
             children: [
               ListTile(
                 leading: CircleAvatar(
-                  backgroundImage: Image.network(
-                          "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg")
-                      .image,
+                  backgroundImage:
+                      Image.network(review.reviewerProfileImage).image,
                 ),
                 contentPadding: EdgeInsets.all(0),
                 title: Text(
-                  "ak672676",
+                  review.reviewerProfileName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 trailing: Text(
@@ -29,11 +36,12 @@ class ReviewItem extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 11,
+                    color: Colors.white,
                   ),
                 ),
               ),
               Image.network(
-                "https://5.imimg.com/data5/WC/ML/MY-68231406/romantic-novels-500x500.jpg",
+                review.bookImage,
                 height: 270,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.scaleDown,
@@ -42,10 +50,11 @@ class ReviewItem extends StatelessWidget {
                 height: 10.0,
               ),
               Center(
-                child: Text("The One Indian Girl",
+                child: Text(review.bookTitle,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     )),
               ),
               // Row(
@@ -63,7 +72,9 @@ class ReviewItem extends StatelessWidget {
                 height: 2.0,
               ),
               Text(
-                  "Thus h oihdowihd oooiwhdoh oi oh whodh owiqhd o oih oqwdh ohoiwhdoi wdo ooihwoid o ho ohoig ui diugd iugwiugd ig iugiugwidg ig wdig iugw iug iqwdug igigiwugd iuwgd iuwgdigwd "),
+                review.review,
+                style: TextStyle(color: Colors.white54, fontSize: 15),
+              ),
               SizedBox(
                 height: 2.0,
               ),
@@ -75,6 +86,9 @@ class ReviewItem extends StatelessWidget {
                 contentPadding: EdgeInsets.all(0),
                 title: Text(
                   "Comments...",
+                  style: TextStyle(
+                    color: Colors.white60,
+                  ),
                 ),
               ),
             ],

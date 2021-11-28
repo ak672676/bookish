@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class OTPPageWidget extends StatefulWidget {
   OTPPageWidget({Key key}) : super(key: key);
@@ -175,6 +177,14 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                             ElevatedButton(
                               onPressed: () {
                                 print('Button pressed ...');
+                                FirebaseFirestore.instance
+                                    .collection('test')
+                                    .get()
+                                    .then((QuerySnapshot querySnapshot) {
+                                  querySnapshot.docs.forEach((doc) {
+                                    print(doc["jgjyguy"]);
+                                  });
+                                });
                               },
                               child: Text(
                                 'Resend Code',

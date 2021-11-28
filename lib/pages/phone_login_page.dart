@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class PhoneloginWidget extends StatefulWidget {
   PhoneloginWidget({Key key}) : super(key: key);
@@ -168,7 +168,6 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                                           16, 24, 0, 24),
                                 ),
                                 style: TextStyle(
-                                  fontFamily: 'Lexend Deca',
                                   color: Colors.white,
                                   fontSize: 24,
                                   fontWeight: FontWeight.normal,
