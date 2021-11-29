@@ -33,7 +33,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 SizedBox(height: 3),
                 Text(
-                  "Books were my pass to personal freedom",
+                  "Books📙 were my pass to personal freedom🧡",
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white54,
@@ -51,6 +51,24 @@ class ProfilePage extends StatelessWidget {
                         ),
                         Text(
                           "Follow",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ]),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.amber[800]),
+                      ),
+                      onPressed: () {},
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      child: Row(children: [
+                        Icon(
+                          Icons.settings,
+                          color: Colors.black,
+                        ),
+                        Text(
+                          "Settings",
                           style: TextStyle(color: Colors.black),
                         )
                       ]),

@@ -36,9 +36,10 @@ class ProfileSearchPage extends StatelessWidget {
             return Align(
               alignment: Alignment.centerRight,
               child: Container(
-                height: 0.5,
+                height: 0.2,
                 width: MediaQuery.of(context).size.width / 1.3,
                 child: Divider(),
+                color: Colors.grey,
               ),
             );
           },
