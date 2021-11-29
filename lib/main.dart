@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
       ),
       // home: FriendsWidget(),
       // home: TestPage(),
-      home: HomeTab(),
+      // home: HomeTab(),
       // home: MainPageWidget(),
       // home: FriendProfileWidget(),
       // home: PhoneloginWidget(),
-      // home: OTPPageWidget(),
+      home: OTPPageWidget(),
       // home: PhoneAuthForm(),
       // home: MyHomePage(title: 'Flutter Demo Home Page '),
     );

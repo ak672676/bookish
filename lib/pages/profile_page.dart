@@ -60,7 +60,11 @@ class ProfilePage extends StatelessWidget {
                       ),
                       onPressed: () {},
                     ),
-                    SizedBox(width: 10),
+                    (() {
+                      if (true) return SizedBox(width: 10);
+                      return Container(
+                          width: 0, height: 0); // Check for condition
+                    }()),
                     ElevatedButton(
                       child: Row(children: [
                         Icon(

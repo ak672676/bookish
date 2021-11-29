@@ -1,3 +1,6 @@
+import 'package:breview/pages/home_tab.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -10,14 +13,35 @@ class PhoneloginWidget extends StatefulWidget {
 }
 
 class _PhoneloginWidgetState extends State<PhoneloginWidget> {
-  TextEditingController phoneNumberController;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+//Authentication
+  var phoneNumberController = TextEditingController();
+  var otpController = TextEditingController();
+  String verificationId = "";
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    phoneNumberController = TextEditingController();
+  }
+
+  void signInWithPhoneAuthCredentials(
+      PhoneAuthCredential phoneAuthCredential) async {
+    try {
+      final authCredential =
+          await auth.signInWithCredential(phoneAuthCredential);
+      if (authCredential.user != null) {
+        print("------>");
+        print(authCredential.user);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeTab()));
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -129,51 +153,100 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: TextFormField(
-                                controller: phoneNumberController,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Your Phone Number...',
-                                  labelStyle: TextStyle(
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  hintText: '9457273074',
-                                  hintStyle: TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber[600],
-                                      width: 2.0,
+                                child: (() {
+                              if (this.verificationId.length == 0) {
+                                return TextFormField(
+                                  controller: phoneNumberController,
+                                  keyboardType: TextInputType.number,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    labelText: 'Your Phone Number...',
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF95A1AC),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber[600],
-                                      width: 2.0,
+                                    hintText: 'Number',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF95A1AC),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
                                     ),
-                                  ),
-                                  filled: true,
-                                  // fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.amber[600],
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.amber[600],
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    filled: true,
+                                    // fillColor: Colors.white,
 
-                                  contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
-                                          16, 24, 0, 24),
-                                ),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            )
+                                    contentPadding:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            16, 24, 0, 24),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                );
+                              } else {
+                                return TextFormField(
+                                  controller: otpController,
+                                  keyboardType: TextInputType.number,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    labelText: 'OTP',
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF95A1AC),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    hintText: 'OTP',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFF95A1AC),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.amber[600],
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.amber[600],
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    filled: true,
+                                    // fillColor: Colors.white,
+
+                                    contentPadding:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            16, 24, 0, 24),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                );
+                              }
+                            }()))
                           ],
                         ),
                       ),
@@ -183,22 +256,49 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                print('OTP Button pressed ...');
-                              },
-                              child: Text(
-                                'Send OTP',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.amber[700]),
-                              ),
-                            )
+                            (() {
+                              if (this.verificationId.length == 0) {
+                                return ElevatedButton(
+                                  onPressed: () {
+                                    print('OTP Button pressed ...');
+                                    print(
+                                        phoneNumberController.text.toString());
+                                    // this.verificationId = "amit";
+                                    // print(verificationId.length);
+                                    fetchOtp();
+                                  },
+                                  child: Text(
+                                    'Send OTP',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.amber[700]),
+                                  ),
+                                );
+                              } else {
+                                return ElevatedButton(
+                                  onPressed: () {
+                                    print('Verify Button pressed ...');
+                                    verify();
+                                  },
+                                  child: Text(
+                                    'Verify',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.amber[700]),
+                                  ),
+                                );
+                              }
+                            }())
                           ],
                         ),
                       )
@@ -211,5 +311,43 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
         ),
       ),
     );
+  }
+
+  Future<void> fetchOtp() async {
+    await db
+        .collection("users")
+        .where("cellNumber",
+            isEqualTo: "+91" + phoneNumberController.text.toString())
+        .get()
+        .then((result) => {
+              if (result.docs.length > 0)
+                {print("From Login"), print(result.docs[0])}
+              else
+                {print('No user found')}
+            });
+    await auth.verifyPhoneNumber(
+        phoneNumber: "+91" + phoneNumberController.text.toString(),
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('Invalid Phone Number');
+          }
+        },
+        codeSent: (String verificationId, int forceResendingToken) async {
+          print('Code Sent');
+          setState(() {
+            this.verificationId = verificationId;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {});
+  }
+
+  Future<void> verify() async {
+    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+        verificationId: this.verificationId,
+        smsCode: otpController.text.toString());
+    signInWithPhoneAuthCredentials(phoneAuthCredential);
   }
 }
