@@ -1,8 +1,13 @@
+import 'package:breview/models/Blog.dart';
+import 'package:breview/util/Constants.dart';
 import 'package:flutter/material.dart';
 
 class BlogsWidget extends StatelessWidget {
+  final Blog blog;
+
   const BlogsWidget({
     Key key,
+    @required this.blog
   }) : super(key: key);
 
   @override
@@ -22,13 +27,12 @@ class BlogsWidget extends StatelessWidget {
                 children: [
                   Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: Color(0xFF4B39EF),
+                    color: Constants.BLUE_COLOR,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          1, 1, 1, 1),
+                      padding: EdgeInsetsDirectional.fromSTEB(1, 1, 1, 1),
                       child: Container(
                         width: 40,
                         height: 40,
@@ -37,7 +41,7 @@ class BlogsWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Image.network(
-                          'https://i.picsum.photos/id/1027/2848/4272.jpg?hmac=EAR-f6uEqI1iZJjB6-NzoZTnmaX0oI0th3z8Y78UpKM',
+                          this.blog.profilePictureUrl,
                         ),
                       ),
                     ),
@@ -45,14 +49,12 @@ class BlogsWidget extends StatelessWidget {
                   Expanded(
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              12, 0, 0, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
-                            'Sam',
+                            this.blog.userName,
                             style: TextStyle(
                               fontFamily: 'Lexend Deca',
                               color: Colors.white,
@@ -82,21 +84,10 @@ class BlogsWidget extends StatelessWidget {
               padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.96,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 6,
-                      color: Color(0x3A000000),
-                      offset: Offset(0, 2),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(8),
-                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    'https://d.newsweek.com/en/full/1310267/best-hawaii-beaches.jpg',
+                    this.blog.image,
                     width: 100,
                     height: 200,
                     fit: BoxFit.cover,
@@ -114,17 +105,18 @@ class BlogsWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            0, 0, 16, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.whatshot_outlined)),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(
-                                  4, 0, 0, 0),
+                                  EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                               child: Text(
-                                '2,493',
+                                this.blog.likes.toString(),
                                 style: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF8B97A2),
@@ -148,7 +140,7 @@ class BlogsWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)',
+                      Constants.lorem_ipsum,
                       style: TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Colors.white,

@@ -1,5 +1,5 @@
 import 'package:breview/pages/blogs_page.dart';
-import 'package:breview/pages/otp_page.dart';
+import 'package:breview/util/Constants.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
       ),
       home: BlogsPage(),
     );

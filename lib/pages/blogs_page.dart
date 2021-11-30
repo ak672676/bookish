@@ -22,7 +22,7 @@ class _BlogsPageState extends State<BlogsPage> {
         onPressed: () {
           print('FloatingActionButton pressed ...');
         },
-        backgroundColor: Color(0xFFB39738),
+        backgroundColor: Constants.SECONDARY_COLOR,
         elevation: 8,
         child: Icon(
           Icons.create_rounded,
@@ -107,7 +107,8 @@ class _BlogsPageState extends State<BlogsPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  BlogsWidget()
+                  BlogsWidget(blog: Constants.testBlog,),
+                  BlogsWidget(blog: Constants.testBlog,)
                 ],
               ),
             )
