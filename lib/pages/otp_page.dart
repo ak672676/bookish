@@ -9,7 +9,7 @@ class OTPPageWidget extends StatefulWidget {
 
 class _OTPPageWidgetState extends State<OTPPageWidget> {
   TextEditingController phoneNumberController;
-  bool _loadingButton = false;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
