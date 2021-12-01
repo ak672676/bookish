@@ -9,7 +9,6 @@ class PhoneloginWidget extends StatefulWidget {
 
 class _PhoneloginWidgetState extends State<PhoneloginWidget> {
   TextEditingController phoneNumberController;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
