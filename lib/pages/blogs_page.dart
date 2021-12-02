@@ -1,6 +1,5 @@
 import 'package:breview/util/Constants.dart';
-import 'package:breview/widgets/BlogsWidget.dart';
-import 'package:breview/widgets/ProfileIconAndNameWidget.dart';
+import 'package:breview/widgets/BlogsProfileWidget.dart';
 import 'package:flutter/material.dart';
 
 
@@ -108,10 +107,8 @@ class _BlogsPageState extends State<BlogsPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  ProfileIconAndName(blog: Constants.testBlog,),
-                  BlogsWidget(blog: Constants.testBlog,),
-                  ProfileIconAndName(blog: Constants.testBlog,),
-                  BlogsWidget(blog: Constants.testBlog,)
+                  BlogsProfileWidget(blog: Constants.testBlog,),
+                  BlogsProfileWidget(blog: Constants.testBlog,)
                 ],
               ),
             )
