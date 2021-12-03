@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:breview/models/Friends.dart';
-class NewWidget extends StatelessWidget {
-  final Friends newWidget;
-  const NewWidget({
-    @required this.newWidget,
+class FriendsWidget extends StatelessWidget {
+  final Friends addFriends;
+  const FriendsWidget({
+    @required this.addFriends,
     Key key,
   }) : super(key: key);
 
@@ -33,7 +33,7 @@ class NewWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    this.newWidget.profilePictureUrl,
+                    this.addFriends.profilePictureUrl,
                   ),
                 ),
               )
@@ -47,7 +47,7 @@ class NewWidget extends StatelessWidget {
                   padding: EdgeInsetsDirectional.fromSTEB(
                       0, 4, 0, 0),
                   child: Text(
-                    this.newWidget.userName,
+                    this.addFriends.userName,
                     textAlign: TextAlign.center,
                     style:
                     TextStyle(
