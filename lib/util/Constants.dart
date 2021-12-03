@@ -1,7 +1,6 @@
 import 'dart:ui';
-
 import 'package:breview/models/Blog.dart';
-
+import 'package:breview/models/Friends.dart';
 class Constants {
   //Styling
   static const String FONT_FAMILY = 'Montserrat';
@@ -18,7 +17,7 @@ class Constants {
       'https://i.picsum.photos/id/1027/2848/4272.jpg?hmac=EAR-f6uEqI1iZJjB6-NzoZTnmaX0oI0th3z8Y78UpKM';
   static const String test_image =
       'https://d.newsweek.com/en/full/1310267/best-hawaii-beaches.jpg';
-
+  static Friends testWidget = Friends("Akshay", 'assets/images/Akshay.jpeg');
   // Strings
   static const String WELCOME = "Welcome";
   static const String LATEST_PICKS = "Latest picks";

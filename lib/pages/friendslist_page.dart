@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:breview/widgets/FriendsWidget.dart';
+import 'package:breview/util/Constants.dart';
 
 class FriendsList extends StatefulWidget {
   FriendsList({Key key}) : super(key: key);
@@ -139,20 +141,16 @@ class _FriendsListState extends State<FriendsList> {
                                         ),
                                       ),
                                     ),
-
-                                    // FlutterFlowIconButton(
-                                    //   borderColor: Colors.transparent,
-                                    //   borderRadius: 30,
-                                    //   buttonSize: 48,
-                                    //   icon: Icon(
-                                    //     Icons.filter_alt_rounded,
-                                    //     color: Color(0xFF95A1AC),
-                                    //     size: 30,
-                                    //   ),
-                                    //   onPressed: () {
-                                    //     print('IconButton pressed ...');
-                                    //   },
-                                    // )
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.filter_alt_rounded,
+                                        color: Color(0xFF95A1AC),
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        print('IconButton pressed ...');
+                                      },
+                                    )
                                   ],
                                 ),
                               ),
@@ -167,6 +165,7 @@ class _FriendsListState extends State<FriendsList> {
             ],
           ),
           Expanded(
+            flex: 10,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -174,226 +173,15 @@ class _FriendsListState extends State<FriendsList> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Card(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color: Color(0xFFF5F5F5),
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Container(
-                                      width: 70,
-                                      height: 70,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/Akshay.jpeg',
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 4, 0, 0),
-                                      child: Text(
-                                        'Akshay',
-                                        textAlign: TextAlign.center,
-                                        style:
-                                        TextStyle(
-                                          fontFamily: 'Lexend Deca',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Card(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color: Color(0xFFF5F5F5),
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Container(
-                                      width: 70,
-                                      height: 70,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/Akshay.jpeg',
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 4, 0, 0),
-                                      child: Text(
-                                        'Abin',
-                                        textAlign: TextAlign.center,
-                                        style:
-                                        TextStyle(
-                                          fontFamily: 'Lexend Deca',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Card(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color: Color(0xFFF5F5F5),
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Container(
-                                      width: 70,
-                                      height: 70,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/Amit.jfif',
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 4, 0, 0),
-                                      child: Text(
-                                        'Amit',
-                                        textAlign: TextAlign.center,
-                                        style:
-                                        TextStyle (
-                                          fontFamily: 'Lexend Deca',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Card(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color: Color(0xFFF5F5F5),
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Container(
-                                      width: 70,
-                                      height: 70,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/Akshay.jpeg',
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 4, 0, 0),
-                                      child: Text(
-                                        'Soujanya',
-                                        textAlign: TextAlign.center,
-                                        style:
-                                        TextStyle(
-                                          fontFamily: 'Lexend Deca',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
+                        NewWidget( newWidget: Constants.testWidget),
+                         NewWidget(newWidget: Constants.testWidget),
+                        NewWidget(newWidget: Constants.testWidget),
+                        NewWidget(newWidget: Constants.testWidget),
                       ],
                     ),
                   ),
@@ -406,7 +194,7 @@ class _FriendsListState extends State<FriendsList> {
                           children: [
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 height: 80,
@@ -416,7 +204,7 @@ class _FriendsListState extends State<FriendsList> {
                                   shape: BoxShape.rectangle,
                                   border: Border.all(
                                     color: Color(0xFFC8CED5),
-                                    width: 1,
+                                    width: 2,
                                   ),
                                 ),
                                 child: Row(
@@ -431,7 +219,7 @@ class _FriendsListState extends State<FriendsList> {
                                         MainAxisAlignment.center,
                                         children: [
                                           Container(
-                                            width: 60,
+                                            width: 40,
                                             height: 60,
                                             clipBehavior: Clip.antiAlias,
                                             decoration: BoxDecoration(
@@ -444,7 +232,9 @@ class _FriendsListState extends State<FriendsList> {
                                         ],
                                       ),
                                     ),
+
                                     Expanded(
+                                      flex: 10,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -485,3 +275,5 @@ class _FriendsListState extends State<FriendsList> {
     );
   }
 }
+
+

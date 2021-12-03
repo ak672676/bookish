@@ -1,4 +1,5 @@
-import 'package:breview/pages/blogs_page.dart';
+// import 'package:breview/pages/blogs_page.dart';
+import 'package:breview/pages/friendslist_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: BlogsPage(),
+      home: FriendsList(),
     );
   }
 }
