@@ -1,71 +1,55 @@
-import 'package:breview/pages/home_tab.dart';
-import 'package:breview/screens/authenticate/register_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:breview/components/RouteAnimation.dart';
+import 'package:breview/provider/LoginProvider.dart';
+import 'package:breview/screens/authenticate/otp_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-// import 'package:google_fonts/google_fonts.dart';
 
-class PhoneloginWidget extends StatefulWidget {
-  PhoneloginWidget({Key key}) : super(key: key);
+class PhoneLoginScreen extends StatefulWidget {
+  PhoneLoginScreen({Key key}) : super(key: key);
 
   @override
-  _PhoneloginWidgetState createState() => _PhoneloginWidgetState();
+  _PhoneLoginScreenState createState() => _PhoneLoginScreenState();
 }
 
-class _PhoneloginWidgetState extends State<PhoneloginWidget> {
-  bool _loadingButton = false;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _visibilityKey = GlobalKey();
+  final _focusNode = FocusNode();
+  bool _visibility = true;
+  var provider;
+  String phone;
 
-  //Authentication
-  var phoneNumberController = TextEditingController();
-  var otpController = TextEditingController();
-  String verificationId = "";
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final spinKit = SpinKitThreeBounce(
+    color: Color(0xFFFFF500),
+    size: 30,
+  );
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future signInWithPhoneAuthCredentials(
-      PhoneAuthCredential phoneAuthCredential) async {
-    try {
-      final authCredential =
-          await auth.signInWithCredential(phoneAuthCredential);
-      if (authCredential.user != null) {
-        print(authCredential.user.uid);
-        // db.collection("users")
-        return authCredential.user;
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => HomeTab()));
-      }
-    } on FirebaseAuthException catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 1,
           decoration: BoxDecoration(
-            // color: Color(0xFF262D34),
             color: Colors.black,
-
             image: DecorationImage(
-                fit: BoxFit.scaleDown,
-                image: Image.asset(
-                  'assets/images/mobile_login.png',
-                ).image,
-                alignment: Alignment.topCenter),
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topCenter,
+              image: Image.asset(
+                'assets/images/otpImage.png',
+              ).image,
+            ),
           ),
           child: Align(
             alignment: AlignmentDirectional(0, 1),
@@ -137,7 +121,7 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                             ),
                             Expanded(
                               child: Text(
-                                'Phone Sign In',
+                                'Sign In',
                                 style: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Colors.white,
@@ -156,26 +140,33 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                                child: (() {
-                              if (this.verificationId.length == 0) {
-                                return TextFormField(
-                                  controller: phoneNumberController,
+                              child: Form(
+                                key: _formKey,
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    phone = value;
+                                  },
+                                  onFieldSubmitted: (value) {
+                                    if (_formKey.currentState.validate()) {
+                                      setState(() {
+                                        _visibility = false;
+                                      });
+                                      // startPhoneAuth(phone, context);
+                                      print("Next");
+                                    }
+                                  },
+                                  focusNode: _focusNode,
+                                  validator: (value) {
+                                    if (value.length != 10) {
+                                      return "Invalid mobile number ";
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(10)
+                                  ],
                                   keyboardType: TextInputType.number,
-                                  obscureText: false,
                                   decoration: InputDecoration(
-                                    labelText: 'Your Phone Number...',
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF95A1AC),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    hintText: 'Number',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Color(0xFF95A1AC),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                       borderSide: BorderSide(
@@ -190,66 +181,22 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                                         width: 2.0,
                                       ),
                                     ),
-                                    filled: true,
-                                    // fillColor: Colors.white,
-
-                                    contentPadding:
-                                        EdgeInsetsDirectional.fromSTEB(
-                                            16, 24, 0, 24),
+                                    label: Text(
+                                      'Phone Number',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                );
-                              } else {
-                                return TextFormField(
-                                  controller: otpController,
-                                  keyboardType: TextInputType.number,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelText: 'OTP',
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF95A1AC),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    hintText: 'OTP',
-                                    hintStyle: TextStyle(
-                                      color: Color(0xFF95A1AC),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.amber[600],
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.amber[600],
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    filled: true,
-                                    // fillColor: Colors.white,
-
-                                    contentPadding:
-                                        EdgeInsetsDirectional.fromSTEB(
-                                            16, 24, 0, 24),
-                                  ),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                );
-                              }
-                            }()))
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -259,49 +206,28 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            (() {
-                              if (this.verificationId.length == 0) {
-                                return ElevatedButton(
-                                  onPressed: () {
-                                    print('OTP Button pressed ...');
-                                    print(
-                                        phoneNumberController.text.toString());
-                                    // this.verificationId = "amit";
-                                    // print(verificationId.length);
-                                    fetchOtp();
-                                  },
-                                  child: Text(
-                                    'Send OTP',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.amber[700]),
-                                  ),
-                                );
-                              } else {
-                                return ElevatedButton(
-                                  onPressed: () {
-                                    print('Verify Button pressed ...');
-                                    verify();
-                                  },
-                                  child: Text(
-                                    'Verify',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.amber[700]),
-                                  ),
-                                );
-                              }
-                            }())
+                            ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    _visibility = false;
+                                  });
+                                  startPhoneAuth(phone, context);
+                                  print("Next");
+                                }
+                              },
+                              child: Text(
+                                'Verify',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.amber[700]),
+                              ),
+                            )
                           ],
                         ),
                       )
@@ -316,41 +242,23 @@ class _PhoneloginWidgetState extends State<PhoneloginWidget> {
     );
   }
 
-  Future<void> fetchOtp() async {
-    await db
-        .collection("users")
-        .where("cellNumber",
-            isEqualTo: "+91" + phoneNumberController.text.toString())
-        .get()
-        .then((result) => {
-              if (result.docs.length > 0)
-                {print("From Login"), print(result.docs[0])}
-              else
-                {print('No user found')}
-            });
-    await auth.verifyPhoneNumber(
-        phoneNumber: "+91" + phoneNumberController.text.toString(),
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            print('Invalid Phone Number');
-          }
-        },
-        codeSent: (String verificationId, int forceResendingToken) async {
-          print('Code Sent');
-          setState(() {
-            this.verificationId = verificationId;
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {});
-  }
+  startPhoneAuth(String phone, BuildContext navcontext) {
+    LoginProvider.startAuth(phoneNumber: "+91" + phone);
+    LoginProvider.stateStream.listen((state) {
+      print("Listening from Phone Login Page.....");
+      print(state);
+      print("------------");
 
-  Future<void> verify() async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: this.verificationId,
-        smsCode: otpController.text.toString());
-    signInWithPhoneAuthCredentials(phoneAuthCredential);
+      if (state == PhoneAuthState.CodeSent) {
+        Navigator.of(_scaffoldKey.currentContext)
+            .pushReplacement(SlideRightRoute(page: OTPPage()));
+      }
+      if (state == PhoneAuthState.Failed) {
+        print("phone auth failed......");
+        // debugPrint("Seems there is an issue with it");
+        Navigator.of(_scaffoldKey.currentContext)
+            .pushReplacement(SlideRightRoute(page: PhoneLoginScreen()));
+      }
+    });
   }
 }

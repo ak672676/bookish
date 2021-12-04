@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:breview/models/review.dart';
 import "package:flutter/material.dart";
 
@@ -42,7 +41,7 @@ class ReviewItem extends StatelessWidget {
               ),
               Image.network(
                 review.bookImage,
-                height: 270,
+                height: 220,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.scaleDown,
               ),

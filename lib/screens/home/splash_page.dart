@@ -1,0 +1,76 @@
+import 'dart:async';
+import 'package:breview/components/RouteAnimation.dart';
+import 'package:breview/provider/LoginProvider.dart';
+import 'package:breview/screens/authenticate/phone_login_page.dart';
+
+import 'package:breview/screens/home/home_tab.dart';
+import "package:flutter/material.dart";
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  StreamSubscription _streamSubscription;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    LoginProvider.instantiate();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Timer(Duration(milliseconds: 800), () {
+      print("SplashScreen");
+      checkLoginStatus(_scaffoldKey.currentContext);
+    });
+
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.black,
+      body: SafeArea(
+          child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                child: Image.asset(
+                  "assets/images/mobile_login.png",
+                  fit: BoxFit.contain,
+                ),
+              ))),
+    );
+  }
+
+  void checkLoginStatus(BuildContext Navcontext) {
+    _streamSubscription = LoginProvider.stateStream.listen((state) {
+      print("From Splash state => " + state.toString());
+      if (state == PhoneAuthState.Failed || state == PhoneAuthState.newUser) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(_scaffoldKey.currentContext)
+              .pushReplacement(FadeRoute(page: PhoneLoginScreen()));
+          // Navigator.of(_scaffoldKey.currentContext)
+          //     .pushReplacement(FadeRoute(page: CreateReview()));
+        });
+      }
+      if (state == PhoneAuthState.Verified) {
+        Future.delayed(Duration(seconds: 1), () {
+          // Navigator.of(_scaffoldKey.currentContext)
+          //     .pushReplacement(FadeRoute(page: PhoneLoginScreen()));
+          Navigator.of(Navcontext).pushReplacement(FadeRoute(page: HomeTab()));
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    print("disposing splash....");
+    _streamSubscription.cancel();
+    _streamSubscription = null;
+    super.dispose();
+  }
+}

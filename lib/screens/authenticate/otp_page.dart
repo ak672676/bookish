@@ -1,27 +1,38 @@
+import 'package:breview/components/RouteAnimation.dart';
+import 'package:breview/provider/LoginProvider.dart';
+import 'package:breview/screens/authenticate/phone_login_page.dart';
+import 'package:breview/screens/home/home_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pinput/pin_put/pin_put.dart';
 
-class OTPPageWidget extends StatefulWidget {
-  OTPPageWidget({Key key}) : super(key: key);
+class OTPPage extends StatefulWidget {
+  OTPPage({Key key}) : super(key: key);
 
   @override
-  _OTPPageWidgetState createState() => _OTPPageWidgetState();
+  _OTPPageState createState() => _OTPPageState();
 }
 
-class _OTPPageWidgetState extends State<OTPPageWidget> {
-  TextEditingController phoneNumberController;
-  bool _loadingButton = false;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+class _OTPPageState extends State<OTPPage> {
+  bool _visibility = true;
+  String otp;
+  final spinKit = SpinKitThreeBounce(
+    color: Color(0xFFFFF500),
+    size: 30,
+  );
+  final _globalKey = GlobalKey();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    autoCodeRetrieve();
     super.initState();
-    phoneNumberController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
@@ -126,41 +137,37 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: TextFormField(
-                                controller: phoneNumberController,
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber[600],
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.amber[600],
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  label: Text(
-                                    'OTP',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 8,
-                                    ),
-                                  ),
-                                ),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                obscureText: false,
+                                child: PinPut(
+                              fieldsCount: 6,
+                              onSubmit: (value) {
+                                otp = value;
+                                otpSubmit(otp);
+                              },
+                              textStyle: TextStyle(
+                                fontFamily: 'Lexend Deca',
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ),
+                              selectedFieldDecoration: BoxDecoration(
+                                border: Border.all(color: Colors.amber),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              submittedFieldDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                  color: Colors.amber,
+                                ),
+                              ),
+                              followingFieldDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                  color: Colors.amber,
+                                ),
+                              ),
+                              cursorColor: Colors.amber,
+                              // actionButtonsEnabled: false,
+                            )),
                           ],
                         ),
                       ),
@@ -173,9 +180,11 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
                             ElevatedButton(
                               onPressed: () {
                                 print('Button pressed ...');
+                                print(otp);
+                                otpSubmit(otp);
                               },
                               child: Text(
-                                'Resend Code',
+                                'Verify',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -198,5 +207,39 @@ class _OTPPageWidgetState extends State<OTPPageWidget> {
         ),
       ),
     );
+  }
+
+  autoCodeRetrieve() {
+    LoginProvider.stateStream.listen((state) {
+      if (state == PhoneAuthState.Verified) {
+        FocusScope.of(context).unfocus();
+        print("called");
+        Navigator.of(_scaffoldKey.currentContext)
+            .pushReplacement(MaterialPageRoute(builder: (_) {
+          return HomeTab();
+        }));
+      } else if (state == PhoneAuthState.newUser) {
+        print(state);
+        Navigator.of(_scaffoldKey.currentContext)
+            .pushReplacement(SlideRightRoute(
+                page: HomeTab(
+          key: _globalKey,
+        )));
+      } else {
+        Future.delayed(Duration(seconds: 8), () {
+          Navigator.of(_scaffoldKey.currentContext)
+              .pushReplacement(MaterialPageRoute(builder: (_) {
+            return PhoneLoginScreen();
+          }));
+        });
+      }
+    });
+  }
+
+  otpSubmit(String otp) {
+    setState(() {
+      _visibility = false;
+    });
+    LoginProvider.signInWithPhoneNumber(otp);
   }
 }

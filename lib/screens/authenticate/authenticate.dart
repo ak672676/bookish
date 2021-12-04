@@ -18,11 +18,11 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
-      return PhoneloginWidget();
+      return PhoneLoginScreen();
       // return PhoneloginWidget(toggleView: toggleView);
 
     } else {
-      return PhoneloginWidget();
+      return PhoneLoginScreen();
     }
   }
 }

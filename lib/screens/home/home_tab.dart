@@ -1,6 +1,6 @@
 import 'package:breview/screens/home/profile_page.dart';
 import 'package:breview/screens/home/profile_search_page.dart';
-import 'package:breview/screens/home/test_page.dart';
+import 'package:breview/screens/home/feeds.dart';
 import 'package:flutter/material.dart';
 
 class HomeTab extends StatefulWidget {
@@ -19,7 +19,7 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   static const List<Widget> _pages = <Widget>[
-    TestPage(),
+    FeedsPage(),
     ProfileSearchPage(),
     ProfilePage(),
   ];
