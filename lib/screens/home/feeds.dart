@@ -4,6 +4,7 @@ import 'package:breview/components/RouteAnimation.dart';
 import 'package:breview/models/review.dart';
 import 'package:breview/screens/home/create_review.dart';
 import 'package:breview/widgets/reviewItem.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +17,10 @@ class FeedsPage extends StatefulWidget {
 
 class _FeedsPageState extends State<FeedsPage> {
   List<Review> reviews = [];
+
+  final CollectionReference reviewCollection =
+      FirebaseFirestore.instance.collection('review');
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +34,12 @@ class _FeedsPageState extends State<FeedsPage> {
     final list = json.decode(jsonData) as List<dynamic>;
     reviews = list.map((e) => Review.fromJson(e)).toList();
     setState(() {});
+
+    //Testing
+
+    // reviewCollection.doc("2q7PVII7pC7I3Ez5K8JD").get().then((value) {
+    //   print(value.data());
+    // });
   }
 
   @override
@@ -106,25 +117,31 @@ class _FeedsPageState extends State<FeedsPage> {
                 ),
               ),
               SizedBox(height: 20),
-              TextFormField(
-                minLines: 3,
-                style: TextStyle(color: Colors.white),
-                maxLines: 3,
-                keyboardType: TextInputType.multiline,
-                onTap: () {
-                  print("On tap post...");
-                  Navigator.of(context).push(FadeRoute(page: CreateReview()));
-                },
-                decoration: InputDecoration(
-                  hintText: 'Add your story on your reads...',
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.amber[700]),
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.amber[700]),
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
+              Material(
+                color: Colors.black,
+                elevation: 20.0,
+                shadowColor: Colors.amber,
+                child: TextFormField(
+                  minLines: 3,
+                  style: TextStyle(color: Colors.white),
+                  maxLines: 3,
+                  keyboardType: TextInputType.multiline,
+                  readOnly: true,
+                  onTap: () {
+                    print("On tap post...");
+                    Navigator.of(context).push(FadeRoute(page: CreateReview()));
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Add your story on your reads...',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.amber[700]),
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.amber[700]),
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    ),
                   ),
                 ),
               ),

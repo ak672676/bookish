@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(milliseconds: 800), () {
+    Timer(Duration(milliseconds: 1000), () {
       print("SplashScreen");
       checkLoginStatus(_scaffoldKey.currentContext);
     });
@@ -37,9 +37,25 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Align(
               alignment: Alignment.center,
               child: Container(
-                child: Image.asset(
-                  "assets/images/mobile_login.png",
-                  fit: BoxFit.contain,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/splash.png",
+                      fit: BoxFit.scaleDown,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Breview",
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w600,
+                          color: Colors.amber[800]),
+                    ),
+                  ],
                 ),
               ))),
     );

@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 
 class CreateReview extends StatefulWidget {
   const CreateReview({Key key}) : super(key: key);
@@ -12,6 +15,13 @@ class CreateReview extends StatefulWidget {
 class _CreateReviewState extends State<CreateReview> {
   File imgFile;
   final imgPicker = ImagePicker();
+  final _formKey = GlobalKey<FormState>();
+  String title;
+  String author;
+  String review;
+  String imgURL;
+
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   void openCamera() async {
     var imgCamera = await imgPicker.getImage(source: ImageSource.camera);
@@ -26,7 +36,28 @@ class _CreateReviewState extends State<CreateReview> {
     setState(() {
       imgFile = File(imgGallery.path);
     });
-    print(imgFile);
+
+    String fileName = path.basename(imgFile.path);
+    print(fileName);
+
+    try {
+      TaskSnapshot snapshot =
+          await storage.ref().child("reviews/$fileName").putFile(imgFile);
+
+      if (snapshot.state == TaskState.success) {
+        final String downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        setState(() {
+          imgURL = downloadUrl;
+        });
+      } else {
+        print('Error from image repo ${snapshot.state.toString()}');
+        throw ('This file is not an image');
+      }
+    } on FirebaseException catch (error) {
+      print(error);
+    }
+
     Navigator.of(context).pop();
   }
 
@@ -48,16 +79,16 @@ class _CreateReviewState extends State<CreateReview> {
               child: ListBody(
                 children: [
                   GestureDetector(
-                    child: Text("Capture Image From Camera"),
+                    child: Text("Take Image From Gallery"),
                     onTap: () {
-                      openCamera();
+                      openGallery();
                     },
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   GestureDetector(
-                    child: Text("Take Image From Gallery"),
+                    child: Text("Capture Image From Camera"),
                     onTap: () {
-                      openGallery();
+                      openCamera();
                     },
                   ),
                 ],
@@ -90,88 +121,129 @@ class _CreateReviewState extends State<CreateReview> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                GestureDetector(
-                  child: () {
-                    if (imgFile == null) {
-                      return Icon(
-                        Icons.add_a_photo,
-                        size: 70,
-                        color: Colors.amber[400],
-                      );
-                    } else {
-                      // return Image.network(
-                      //   "https://5.imimg.com/data5/WC/ML/MY-68231406/romantic-novels-500x500.jpg",
-                      //   height: 200,
-                      //   width: MediaQuery.of(context).size.width,
-                      //   fit: BoxFit.scaleDown,
-                      // );
-                      return Image.file(
-                        imgFile,
-                        height: 200,
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.scaleDown,
-                      );
-                    }
-                  }(),
-                  onTap: () {
-                    print(imgFile);
-                    showOptionsDialog(context);
-                    print("Image change..");
-                  },
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                    cursorColor: Colors.amber,
-                    decoration: InputDecoration(
-                      hintText: 'Title',
-                      hintStyle: TextStyle(color: Colors.grey),
-                    )),
-                SizedBox(height: 10),
-                TextFormField(
-                    cursorColor: Colors.amber,
-                    decoration: InputDecoration(
-                      hintText: 'Author',
-                      hintStyle: TextStyle(color: Colors.grey),
-                    )),
-                SizedBox(height: 10),
-                TextFormField(
-                  minLines: 3,
-                  style: TextStyle(color: Colors.white),
-                  maxLines: 5,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintText: 'Your review',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    // enabledBorder: OutlineInputBorder(
-                    //   borderSide: BorderSide(color: Colors.white),
-                    //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    // ),
-                    // border: OutlineInputBorder(
-                    //   borderSide: BorderSide(color: Colors.white),
-                    //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    // ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  GestureDetector(
+                    child: () {
+                      if (imgFile == null) {
+                        return Icon(
+                          Icons.add_a_photo,
+                          size: 70,
+                          color: Colors.amber[400],
+                        );
+                      } else {
+                        // return Image.network(
+                        //   "https://5.imimg.com/data5/WC/ML/MY-68231406/romantic-novels-500x500.jpg",
+                        //   height: 200,
+                        //   width: MediaQuery.of(context).size.width,
+                        //   fit: BoxFit.scaleDown,
+                        // );
+                        return Image.file(
+                          imgFile,
+                          height: 200,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.scaleDown,
+                        );
+                      }
+                    }(),
+                    onTap: () {
+                      print(imgFile);
+                      showOptionsDialog(context);
+                      print("Image change..");
+                    },
                   ),
-                ),
-                SizedBox(height: 60),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      child: Text(
-                        'Post',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      onPressed: () {
-                        print("Submit Post");
-                        // showOptionsDialog(context);
+                  SizedBox(height: 10),
+                  TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter title';
+                        }
+                        return null;
                       },
+                      onChanged: (value) {
+                        setState(() {
+                          title = value;
+                        });
+                      },
+                      cursorColor: Colors.amber,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Title',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      )),
+                  SizedBox(height: 10),
+                  TextFormField(
+                      cursorColor: Colors.amber,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter the author';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          author = value;
+                        });
+                      },
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Author',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      )),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    minLines: 4,
+                    style: TextStyle(color: Colors.white),
+                    maxLines: 7,
+                    onChanged: (value) {
+                      setState(() {
+                        review = value;
+                      });
+                    },
+                    keyboardType: TextInputType.multiline,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please put your views';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Your review',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      // enabledBorder: OutlineInputBorder(
+                      //   borderSide: BorderSide(color: Colors.white),
+                      //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      // ),
+                      // border: OutlineInputBorder(
+                      //   borderSide: BorderSide(color: Colors.white),
+                      //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      // ),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(height: 60),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        child: Text(
+                          'Post',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            print("Submit Post");
+                            print(imgURL);
+                          }
+                          // showOptionsDialog(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

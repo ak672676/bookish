@@ -1,0 +1,19 @@
+{
+  "uid":"uigyugugtgt7yg",
+  "reviewerId": "hyuuyguygu",
+  "reviewerUsername": "ak672676",
+  "reviewerProfileImage": "https://firebasestorage.googleapis.com/v0/b/book-review-app-f9b5c.appspot.com/o/profileImages%2Fak672676.jpg?alt=media&token=f9b9f8f6-f8f9-4f0e-b8e8-f8f8f8f8f8f8",
+  "bookId":"guyugiu",
+  "bookTitle": "The Book of Trees",
+  "bookImage": "https://firebasestorage.googleapis.com/v0/b/book-review-app-f9b5c.appspot.com/o/bookImages%2Fthe-book-of-trees.jpg?alt=media&token=f9b9f8f6-f8f9-4f0e-b8e8-f8f8f8f8f8f8",
+  "bookAuthor": "T. S. Eliot",
+  "likes":["jhkjhkjh","hiuhiu","hiuhhi"],
+  "comments":[{
+    "commentId":"hhiukjnj",
+    "username":"ak672676",
+    "userId":"jkhkjhhk",
+    "datetime":"222222222",
+    "comment":"This is a comment"
+  }],
+  "reviewDatetime":"qqqqqqqqq",
+}
