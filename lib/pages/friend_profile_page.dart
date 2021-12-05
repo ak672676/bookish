@@ -120,32 +120,46 @@ class _FriendProfileState extends State<FriendProfile> {
                 ),
               ),
             ),
+
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  blogsStream != null ?
-                  StreamBuilder(
-                      stream: blogsStream,
-                      builder: (context, snapshot){
-                        return ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index){
-                              return BlogsWidget(
-                                  image: snapshot.data.documents[0].data['image'],
-                                  likes: snapshot.data.documents[0].data['likes'].toString()
-                              );
-                            });
-                      })
-                  // BlogsWidget(
-                  //     image: this.blogSnapshot.documents[0].data['image'],
-                  //     likes: this.blogSnapshot.documents[0].data['likes'].toString()
-                  // )
-                      :Container(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  ),
+                  FutureBuilder(
+                    future: crudMethods.getData(),
+                    builder: (context,AsyncSnapshot<dynamic> snap) {
+                    return Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          StreamBuilder(
+                            stream: snap.data,
+                            builder: (context, snapshot){
+                              if(snapshot.hasData){
+                                return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.documents.length,
+                                  itemBuilder: (context, index){
+                                    return BlogsWidget(
+                                      image: snapshot.data.documents[index].data['image'],
+                                      likes: snapshot.data.documents[index].data['likes'].toString()
+                                    );
+                                  });
+                              }
+                              else{
+                                return Container(
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator()
+                                );
+                              }
+                            }),
+                      ],
+                    ),
+                  );
+                }),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
@@ -175,27 +189,6 @@ class _FriendProfileState extends State<FriendProfile> {
                       ),
                     ),
                   ),
-                  blogsStream != null ?
-                  StreamBuilder(
-                      stream: blogsStream,
-                      builder: (context, snapshot){
-                        return ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index){
-                              return BlogsWidget(
-                                  image: snapshot.data.documents[0].data['image'],
-                                  likes: snapshot.data.documents[0].data['likes'].toString()
-                              );
-                            });
-                      })
-                  // BlogsWidget(
-                  //     image: this.blogSnapshot.documents[0].data['image'],
-                  //     likes: this.blogSnapshot.documents[0].data['likes'].toString()
-                  //   )
-                      :Container(
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(),
-                  )
                 ],
               ),
             )
