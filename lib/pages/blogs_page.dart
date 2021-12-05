@@ -2,6 +2,7 @@ import 'package:breview/services/crud.dart';
 import 'package:breview/util/Constants.dart';
 import 'package:breview/widgets/BlogsProfileWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -116,42 +117,53 @@ class _BlogsPageState extends State<BlogsPage> {
                 ),
               ),
             ),
-            blogsStream != null ? Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  StreamBuilder(
-                    stream: blogsStream,
-                    builder: (context, snapshot){
-                      return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index){
-                            return BlogsProfileWidget(
-                                profilePictureUrl: snapshot.data.documents[index].data['ProfilePictureUrl'],
-                                username: snapshot.data.documents[0].data['username'],
-                                image: snapshot.data.documents[0].data['image'],
-                                likes: snapshot.data.documents[0].data['likes'].toString()
-                            );
-                          });
-                      }),
-                  // BlogsProfileWidget(
-                  //     profilePictureUrl: this.blogsStream.data.documents[0].data['ProfilePictureUrl'],
-                  //     username: this.blogsStream.documents[0].data['username'],
-                  //     image: this.blogsStream.documents[0].data['image'],
-                  //     likes: this.blogsStream.documents[0].data['likes'].toString()
-                  // ),
-                  // BlogsProfileWidget(
-                  //     profilePictureUrl: this.blogSnapshot.documents[0].data['ProfilePictureUrl'],
-                  //     username: this.blogSnapshot.documents[0].data['username'],
-                  //     image: this.blogSnapshot.documents[0].data['image'],
-                  //     likes: this.blogSnapshot.documents[0].data['likes'].toString()
-                  // )
-                ],
-              ),
-            ):Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+            FutureBuilder(
+              future: crudMethods.getData(),
+              builder: (context,AsyncSnapshot<dynamic> snap) {
+                return Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      StreamBuilder(
+                          stream: snap.data,
+                          builder: (context, snapshot){
+                            if(snapshot.hasData){
+                              return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.documents.length,
+                                  itemBuilder: (context, index){
+                                    return BlogsProfileWidget(
+                                        profilePictureUrl: snapshot.data.documents[index].data['ProfilePictureUrl'],
+                                        username: snapshot.data.documents[index].data['username'],
+                                        image: snapshot.data.documents[index].data['image'],
+                                        likes: snapshot.data.documents[index].data['likes'].toString()
+                                    );
+                                  });
+                            }
+                            else{
+                              return Container(
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator());
+                            }
+                          }),
+                      // BlogsProfileWidget(
+                      //     profilePictureUrl: this.blogsStream.data.documents[0].data['ProfilePictureUrl'],
+                      //     username: this.blogsStream.documents[0].data['username'],
+                      //     image: this.blogsStream.documents[0].data['image'],
+                      //     likes: this.blogsStream.documents[0].data['likes'].toString()
+                      // ),
+                      // BlogsProfileWidget(
+                      //     profilePictureUrl: this.blogSnapshot.documents[0].data['ProfilePictureUrl'],
+                      //     username: this.blogSnapshot.documents[0].data['username'],
+                      //     image: this.blogSnapshot.documents[0].data['image'],
+                      //     likes: this.blogSnapshot.documents[0].data['likes'].toString()
+                      // )
+                    ],
+                  ),
+                );
+              }
             )
           ],
         ),
