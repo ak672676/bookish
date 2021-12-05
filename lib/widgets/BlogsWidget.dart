@@ -1,6 +1,4 @@
-// import 'package:breview/models/Blog.dart';
 import 'package:breview/util/Constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class BlogsWidget extends StatelessWidget {

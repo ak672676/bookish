@@ -1,5 +1,4 @@
 import 'package:breview/pages/blogs_page.dart';
-import 'package:breview/pages/friend_profile_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
