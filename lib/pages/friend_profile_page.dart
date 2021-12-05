@@ -1,5 +1,7 @@
-import 'package:breview/util/Constants.dart';
+import 'package:breview/services/crud.dart';
+// import 'package:breview/util/Constants.dart';
 import 'package:breview/widgets/BlogsWidget.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class FriendProfile extends StatefulWidget {
@@ -11,6 +13,18 @@ class FriendProfile extends StatefulWidget {
 
 class _FriendProfileState extends State<FriendProfile> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Stream blogsStream;
+  CrudMethods crudMethods = new CrudMethods();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    crudMethods.getData().then((result){
+      blogsStream = result;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +125,27 @@ class _FriendProfileState extends State<FriendProfile> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  BlogsWidget(blog: Constants.testBlog,),
+                  blogsStream != null ?
+                  StreamBuilder(
+                      stream: blogsStream,
+                      builder: (context, snapshot){
+                        return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index){
+                              return BlogsWidget(
+                                  image: snapshot.data.documents[0].data['image'],
+                                  likes: snapshot.data.documents[0].data['likes'].toString()
+                              );
+                            });
+                      })
+                  // BlogsWidget(
+                  //     image: this.blogSnapshot.documents[0].data['image'],
+                  //     likes: this.blogSnapshot.documents[0].data['likes'].toString()
+                  // )
+                      :Container(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(),
+                  ),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
@@ -141,7 +175,27 @@ class _FriendProfileState extends State<FriendProfile> {
                       ),
                     ),
                   ),
-                  BlogsWidget(blog: Constants.testBlog,)
+                  blogsStream != null ?
+                  StreamBuilder(
+                      stream: blogsStream,
+                      builder: (context, snapshot){
+                        return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index){
+                              return BlogsWidget(
+                                  image: snapshot.data.documents[0].data['image'],
+                                  likes: snapshot.data.documents[0].data['likes'].toString()
+                              );
+                            });
+                      })
+                  // BlogsWidget(
+                  //     image: this.blogSnapshot.documents[0].data['image'],
+                  //     likes: this.blogSnapshot.documents[0].data['likes'].toString()
+                  //   )
+                      :Container(
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(),
+                  )
                 ],
               ),
             )
