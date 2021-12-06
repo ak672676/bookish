@@ -1,4 +1,4 @@
-import 'package:breview/util/Constants.dart';
+import 'package:breview/services/crud.dart';
 import 'package:breview/widgets/BlogsWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +11,18 @@ class FriendProfile extends StatefulWidget {
 
 class _FriendProfileState extends State<FriendProfile> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Stream blogsStream;
+  CrudMethods crudMethods = new CrudMethods();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    crudMethods.getData().then((result){
+      blogsStream = result;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +118,46 @@ class _FriendProfileState extends State<FriendProfile> {
                 ),
               ),
             ),
+
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  BlogsWidget(blog: Constants.testBlog,),
+                  FutureBuilder(
+                    future: crudMethods.getData(),
+                    builder: (context,AsyncSnapshot<dynamic> snap) {
+                    return Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          StreamBuilder(
+                            stream: snap.data,
+                            builder: (context, snapshot){
+                              if(snapshot.hasData){
+                                return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.documents.length,
+                                  itemBuilder: (context, index){
+                                    return BlogsWidget(
+                                      image: snapshot.data.documents[index].data['image'],
+                                      likes: snapshot.data.documents[index].data['likes'].toString()
+                                    );
+                                  });
+                              }
+                              else{
+                                return Container(
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator()
+                                );
+                              }
+                            }),
+                      ],
+                    ),
+                  );
+                }),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
@@ -141,7 +187,6 @@ class _FriendProfileState extends State<FriendProfile> {
                       ),
                     ),
                   ),
-                  BlogsWidget(blog: Constants.testBlog,)
                 ],
               ),
             )

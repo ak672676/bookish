@@ -1,5 +1,7 @@
+import 'package:breview/services/crud.dart';
 import 'package:breview/util/Constants.dart';
 import 'package:breview/widgets/BlogsProfileWidget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,6 +14,8 @@ class BlogsPage extends StatefulWidget {
 
 class _BlogsPageState extends State<BlogsPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  CrudMethods crudMethods = new CrudMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -102,15 +106,41 @@ class _BlogsPageState extends State<BlogsPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  BlogsProfileWidget(blog: Constants.testBlog,),
-                  BlogsProfileWidget(blog: Constants.testBlog,)
-                ],
-              ),
+            FutureBuilder(
+              future: crudMethods.getData(),
+              builder: (context,AsyncSnapshot<dynamic> snap) {
+                return Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      StreamBuilder(
+                        stream: snap.data,
+                        builder: (context, snapshot){
+                          if(snapshot.hasData){
+                            return ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (context, index){
+                                return BlogsProfileWidget(
+                                  profilePictureUrl: snapshot.data.documents[index].data['ProfilePictureUrl'],
+                                  username: snapshot.data.documents[index].data['username'],
+                                  image: snapshot.data.documents[index].data['image'],
+                                  likes: snapshot.data.documents[index].data['likes'].toString()
+                                );
+                              });
+                          }
+                          else{
+                            return Container(
+                                alignment: Alignment.center,
+                                child: CircularProgressIndicator());
+                          }
+                        }),
+                    ],
+                  ),
+                );
+              }
             )
           ],
         ),
