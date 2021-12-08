@@ -143,12 +143,13 @@ class _FriendsListState extends State<FriendsList> {
                                     ),
                                     IconButton(
                                       icon: Icon(
-                                        Icons.filter_alt_rounded,
+                                        Icons.search,
                                         color: Color(0xFF95A1AC),
                                         size: 30,
                                       ),
                                       onPressed: () {
                                         print('IconButton pressed ...');
+                                        // "Write the logic when no entry found"
                                       },
                                     )
                                   ],

@@ -1,3 +1,4 @@
+import 'package:breview/pages/blogs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:breview/models/Friends.dart';
 class FriendsWidget extends StatelessWidget {
@@ -18,25 +19,33 @@ class FriendsWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Card(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                color: Color(0xFFF5F5F5),
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+              FloatingActionButton(
+                child: Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  // color: Color(),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.asset(
-                    this.addFriends.profilePictureUrl,
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      this.addFriends.profilePictureUrl,
+                    ),
                   ),
                 ),
-              )
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  BlogsPage()),
+                  );
+                },
+              ),
             ],
           ),
           Row(
