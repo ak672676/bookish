@@ -1,14 +1,16 @@
-import 'package:breview/models/Blog.dart';
 import 'package:breview/util/Constants.dart';
 import 'package:breview/widgets/BlogsWidget.dart';
 import 'package:flutter/material.dart';
 
 class BlogsProfileWidget extends StatelessWidget {
-  final Blog blog;
+  final String profilePictureUrl, username, image, likes;
 
   const BlogsProfileWidget({
     Key key,
-    @required this.blog,
+    @required this.profilePictureUrl,
+    @required this.username,
+    @required this.image,
+    @required this.likes,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class BlogsProfileWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Image.network(
-                          this.blog.profilePictureUrl,
+                          this.profilePictureUrl,
                         ),
                       ),
                     ),
@@ -55,7 +57,7 @@ class BlogsProfileWidget extends StatelessWidget {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
-                            this.blog.userName,
+                            this.username,
                             style: TextStyle(
                               fontFamily: 'Lexend Deca',
                               color: Colors.white,
@@ -81,7 +83,10 @@ class BlogsProfileWidget extends StatelessWidget {
                 ],
               ),
             ),
-            BlogsWidget(blog: Constants.testBlog),
+            BlogsWidget(
+                image: this.image,
+                likes: this.likes
+            ),
           ],
         ),
       ),

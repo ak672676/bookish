@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "934338543057",
+    "project_id": "breview-334103",
+    "storage_bucket": "breview-334103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934338543057:android:f63658dd4c9a1c2bd4b4f0",
+        "android_client_info": {
+          "package_name": "com.cpad.breview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934338543057-7p4h6k53idvuneq42tj1g906k164ppcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYsQv1MaIuglR0Nf9LVwk-7pUen2cJNrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934338543057-7p4h6k53idvuneq42tj1g906k164ppcb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
