@@ -1,16 +1,21 @@
+import 'dart:io';
+
 import 'package:breview/widgets/FilledButton.dart';
 import 'package:breview/widgets/UserDetailstInputText.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserDetailsPage extends StatefulWidget {
   UserDetailsPage({Key key}) : super(key: key);
 
   @override
-  _UserDetailsPageState createState() =>
-      _UserDetailsPageState();
+  _UserDetailsPageState createState() => _UserDetailsPageState();
 }
 
 class _UserDetailsPageState extends State<UserDetailsPage> {
+  XFile _image;
+  final ImagePicker _picker = ImagePicker();
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController firstNameController;
@@ -59,17 +64,39 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                                width: 140,
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.scaleDown,
-                                      image: Image.asset(
-                                        'assets/images/profile_image.png',
-                                      ).image,
-                                      alignment: Alignment.topCenter),
-                                )),
+                            SizedBox(
+                              height: 100,
+                            ),
+                            Center(
+                                child: GestureDetector(
+                              onTap: () {
+                                _showPicker(context);
+                              },
+                              child: CircleAvatar(
+                                  radius: 55,
+                                  backgroundColor: Color(0xffFDCF09),
+                                  child: _image != null
+                                      ? ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: Image.file(
+                                            File(_image.path),
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        )
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(60),
+                                          child: Image(
+                                            fit: BoxFit.fitHeight,
+                                            image: Image.asset(
+                                              'assets/images/profile_image.png',
+                                            ).image,
+                                          ),
+                                        )),
+                            )),
                             UserDetailsInputText(
                               textEditingController: firstNameController,
                               labelText: "First Name",
@@ -91,6 +118,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                             ),
                             FilledButton(
                               listener: () {
+                                if (_image == null) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                      "Choose a Profile Picture",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                  return;
+                                }
                                 if (formKey.currentState.validate()) {}
                                 print(lastNameController.text);
                                 print("Clicked");
@@ -101,5 +139,36 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                     ),
                   )),
             )));
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Gallery'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _imgFromGallery() async {
+    XFile image =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _image = image;
+    });
   }
 }
