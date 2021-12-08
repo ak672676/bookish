@@ -1,4 +1,5 @@
 import 'package:breview/pages/friend_profile_page.dart';
+import 'package:breview/pages/user_details_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: FriendProfile(),
+      home: UserDetailsPage(),
     );
   }
 }
