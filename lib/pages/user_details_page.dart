@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:breview/models/UserDetails.dart';
+import 'package:breview/services/crud.dart';
 import 'package:breview/widgets/FilledButton.dart';
 import 'package:breview/widgets/UserDetailstInputText.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -132,6 +133,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                 if (formKey.currentState.validate()) {}
                                 print(lastNameController.text);
                                 print("Clicked");
+                                CrudMethods.saveUserData(
+                                    File(_image.path), new UserDetails());
                               },
                               text: "Finish",
                             )
