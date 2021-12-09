@@ -126,14 +126,13 @@ class _FriendProfileState extends State<FriendProfile> {
                             stream: snap.data,
                             builder: (context, snapshot){
                               if(snapshot.hasData){
-                                return ListView.builder(
-                                  scrollDirection: Axis.vertical,
+                                return ListView.builder( physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: snapshot.data.documents.length,
+                                  itemCount: snapshot.data.docs.length,
                                   itemBuilder: (context, index){
                                     return BlogsWidget(
-                                      image: snapshot.data.documents[index].data['image'],
-                                      likes: snapshot.data.documents[index].data['likes'].toString()
+                                      image: snapshot.data.docs[index]['image'],
+                                      likes: snapshot.data.docs[index]['likes'].toString()
                                     );
                                   });
                               }
