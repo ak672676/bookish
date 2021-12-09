@@ -1,7 +1,6 @@
 import 'package:breview/services/crud.dart';
 import 'package:breview/util/Constants.dart';
 import 'package:breview/widgets/BlogsProfileWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -121,13 +120,13 @@ class _BlogsPageState extends State<BlogsPage> {
                             return ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount: snapshot.data.documents.length,
+                              itemCount: snapshot.data.docs.length,
                               itemBuilder: (context, index){
                                 return BlogsProfileWidget(
-                                  profilePictureUrl: snapshot.data.documents[index].data['ProfilePictureUrl'],
-                                  username: snapshot.data.documents[index].data['username'],
-                                  image: snapshot.data.documents[index].data['image'],
-                                  likes: snapshot.data.documents[index].data['likes'].toString()
+                                  profilePictureUrl: snapshot.data.docs[index]['ProfilePictureUrl'],
+                                  username: snapshot.data.docs[index]['username'],
+                                  image: snapshot.data.docs[index]['image'],
+                                  likes: snapshot.data.docs[index]['likes'].toString()
                                 );
                               });
                           }
