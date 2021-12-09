@@ -119,7 +119,7 @@ class _BlogsPageState extends State<BlogsPage> {
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return ListView.builder(
-                                      scrollDirection: Axis.vertical,
+                                     physics: NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: snapshot.data.docs.length,
                                       itemBuilder: (context, index) {
