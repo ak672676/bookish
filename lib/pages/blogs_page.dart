@@ -106,7 +106,7 @@ class _BlogsPageState extends State<BlogsPage> {
               ),
             ),
             FutureBuilder(
-              future: crudMethods.getData(),
+              future: crudMethods.getData("blogs"),
               builder: (context,AsyncSnapshot<dynamic> snap) {
                 return Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
