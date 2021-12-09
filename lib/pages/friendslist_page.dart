@@ -1,6 +1,8 @@
+import 'package:breview/widgets/FriendListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:breview/widgets/FriendsWidget.dart';
 import 'package:breview/util/Constants.dart';
+import 'package:breview/services/crud.dart';
 
 class FriendsList extends StatefulWidget {
   FriendsList({Key key}) : super(key: key);
@@ -12,6 +14,8 @@ class FriendsList extends StatefulWidget {
 class _FriendsListState extends State<FriendsList> {
   TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  CrudMethods crudMethods = new CrudMethods();
 
   @override
   void initState() {
@@ -143,7 +147,7 @@ class _FriendsListState extends State<FriendsList> {
                                     ),
                                     IconButton(
                                       icon: Icon(
-                                        Icons.search,
+                                        Icons.filter_alt_rounded,
                                         color: Color(0xFF95A1AC),
                                         size: 30,
                                       ),
@@ -169,103 +173,57 @@ class _FriendsListState extends State<FriendsList> {
             flex: 10,
             child: SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
 
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        FriendsWidget( addFriends: Constants.testWidget),
-                         FriendsWidget(addFriends: Constants.testWidget),
+                        FriendsWidget(addFriends: Constants.testWidget),
+                        FriendsWidget(addFriends: Constants.testWidget),
                         FriendsWidget(addFriends: Constants.testWidget),
                         FriendsWidget(addFriends: Constants.testWidget),
                       ],
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Color(0xFFC8CED5),
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 0, 8, 0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 40,
-                                            height: 60,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Image.asset(
-                                              'assets/images/Rajat.jpeg',
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-
-                                    Expanded(
-                                      flex: 10,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                'Rajat Ranjan Jha',
-                                                style:TextStyle(
-                                                  fontFamily: 'Lexend Deca',
-                                                  color: Color(0xFF15212B),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                  FutureBuilder(
+                      future: crudMethods.getData("users"),
+                      builder: (context,AsyncSnapshot<dynamic> snap) {
+                        return Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              StreamBuilder(
+                                  stream: snap.data,
+                                  builder: (context, snapshot){
+                                    if(snapshot.hasData){
+                                      return ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          shrinkWrap: true,
+                                          itemCount: snapshot.data.documents.length,
+                                          itemBuilder: (context, index){
+                                            return FriendListWidget(
+                                                firstName: snapshot.data.documents[index].data['first_name'],
+                                                lastName: snapshot.data.documents[index].data['last_name'],
+                                                profilePicture: snapshot.data.documents[index].data['profile_picture']
+                                            );
+                                          });
+                                    }
+                                    else{
+                                      return Container(
+                                          alignment: Alignment.center,
+                                          child: CircularProgressIndicator());
+                                    }
+                                  }),
+                            ],
+                          ),
+                        );
+                      }
                   )
                 ],
               ),
@@ -276,5 +234,3 @@ class _FriendsListState extends State<FriendsList> {
     );
   }
 }
-
-

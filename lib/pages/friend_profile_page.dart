@@ -12,17 +12,7 @@ class FriendProfile extends StatefulWidget {
 class _FriendProfileState extends State<FriendProfile> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Stream blogsStream;
   CrudMethods crudMethods = new CrudMethods();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    crudMethods.getData().then((result){
-      blogsStream = result;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +115,7 @@ class _FriendProfileState extends State<FriendProfile> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   FutureBuilder(
-                    future: crudMethods.getData(),
+                    future: crudMethods.getData("blogs"),
                     builder: (context,AsyncSnapshot<dynamic> snap) {
                     return Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 32),
