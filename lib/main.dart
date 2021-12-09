@@ -1,4 +1,3 @@
-import 'package:breview/pages/blogs_page.dart';
 import 'package:breview/pages/friendslist_page.dart';
 import 'package:flutter/material.dart';
 
