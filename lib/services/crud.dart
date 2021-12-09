@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class CrudMethods{
 
   getData(collection) async{
-    return Firestore.instance.collection(collection).snapshots();
+    return FirebaseFirestore.instance.collection(collection).snapshots();
   }
 
   static void saveUserData(File file, UserDetails userDetails) async {

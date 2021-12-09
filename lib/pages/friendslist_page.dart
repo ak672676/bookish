@@ -205,12 +205,12 @@ class _FriendsListState extends State<FriendsList> {
                                       return ListView.builder(
                                           scrollDirection: Axis.vertical,
                                           shrinkWrap: true,
-                                          itemCount: snapshot.data.documents.length,
+                                          itemCount: snapshot.data.docs.length,
                                           itemBuilder: (context, index){
                                             return FriendListWidget(
-                                                firstName: snapshot.data.documents[index].data['first_name'],
-                                                lastName: snapshot.data.documents[index].data['last_name'],
-                                                profilePicture: snapshot.data.documents[index].data['profile_picture']
+                                                firstName: snapshot.data.docs[index]['first_name'],
+                                                lastName: snapshot.data.docs[index]['last_name'],
+                                                profilePicture: snapshot.data.docs[index]['profile_picture']
                                             );
                                           });
                                     }
