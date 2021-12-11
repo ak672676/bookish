@@ -26,7 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Timer(Duration(milliseconds: 1000), () {
-      print("SplashScreen");
       checkLoginStatus(_scaffoldKey.currentContext);
     });
 
@@ -63,7 +62,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void checkLoginStatus(BuildContext Navcontext) {
     _streamSubscription = LoginProvider.stateStream.listen((state) {
-      print("From Splash state => " + state.toString());
       if (state == PhoneAuthState.Failed || state == PhoneAuthState.newUser) {
         Future.delayed(Duration(seconds: 1), () {
           Navigator.of(_scaffoldKey.currentContext)
@@ -84,7 +82,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void dispose() {
-    print("disposing splash....");
     _streamSubscription.cancel();
     _streamSubscription = null;
     super.dispose();

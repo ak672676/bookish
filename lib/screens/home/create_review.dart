@@ -22,6 +22,7 @@ class _CreateReviewState extends State<CreateReview> {
   String imgURL;
 
   FirebaseStorage storage = FirebaseStorage.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   void openCamera() async {
     var imgCamera = await imgPicker.getImage(source: ImageSource.camera);
@@ -234,8 +235,7 @@ class _CreateReviewState extends State<CreateReview> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
-                            print("Submit Post");
-                            print(imgURL);
+                            saveReview();
                           }
                           // showOptionsDialog(context);
                         },
@@ -249,5 +249,20 @@ class _CreateReviewState extends State<CreateReview> {
         ),
       ),
     );
+  }
+
+  saveReview() {
+    print("Submit Post");
+    print(imgURL);
+    db.collection("reviews").add({
+      "bookTitle": title,
+      "bookAuthor": author,
+      "review": review,
+      "imgURL": imgURL,
+      "reviewDatetime": DateTime.now().millisecondsSinceEpoch.toString(),
+    }).then((value) {
+      print(value.id);
+      Navigator.of(context).pop();
+    });
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:breview/provider/AccountProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,15 +30,11 @@ class LoginProvider {
       addStatus("Not Logged In");
       addState(PhoneAuthState.Failed);
     } else {
-      // FirebaseDatabase.instance
-      //     .reference()
-      //     .child("Userss")
-      //     .child(user.uid)
-      //     .set(<String, String>{"uuid": user.uid, "phone": user.phoneNumber});
       if (user.metadata.lastSignInTime == user.metadata.creationTime) {
         addStatus("New User");
         addState(PhoneAuthState.newUser);
       } else {
+        // AccountPorvider().setAccount(user.uid);
         addStatus("Logging In ");
         addState(PhoneAuthState.Verified);
       }
@@ -54,8 +52,6 @@ class LoginProvider {
   static void startAuth({String phoneNumber}) {
     phone = phoneNumber;
     statusStream.stream.listen((String status) {
-      print("From login provider line 57");
-
       debugPrint("PhoneAuth: " + status);
     });
 

@@ -1,5 +1,9 @@
+import 'package:breview/components/RouteAnimation.dart';
+import 'package:breview/provider/AccountProvider.dart';
 import 'package:breview/provider/LoginProvider.dart';
+import 'package:breview/screens/authenticate/phone_login_page.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
@@ -11,6 +15,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    AccountPorvider accountProvider = Provider.of<AccountPorvider>(context);
+    print(accountProvider.id);
+    print(accountProvider.username);
+
     return Scaffold(
         backgroundColor: Colors.black,
         body: SingleChildScrollView(
@@ -182,6 +190,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () {
                     // AuthService().signOut();
                     LoginProvider.logOut();
+                    Navigator.of(context)
+                        .pushReplacement(FadeRoute(page: PhoneLoginScreen()));
                     print("Logout");
                   },
                 ),
