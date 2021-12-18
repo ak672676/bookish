@@ -1,3 +1,4 @@
+import 'package:breview/screens/home/book_page.dart';
 import 'package:breview/screens/home/profile_page.dart';
 import 'package:breview/screens/home/profile_search_page.dart';
 import 'package:breview/screens/home/feeds.dart';
@@ -20,6 +21,7 @@ class _HomeTabState extends State<HomeTab> {
 
   static const List<Widget> _pages = <Widget>[
     FeedsPage(),
+    BookPage(),
     ProfileSearchPage(),
     ProfilePage(),
   ];
@@ -40,10 +42,15 @@ class _HomeTabState extends State<HomeTab> {
         selectedItemColor: Colors.amber[600],
         unselectedIconTheme: IconThemeData(color: Colors.amber[100], size: 24),
         unselectedItemColor: Colors.amber[100],
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_outlined),
+            label: 'Books',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_search_rounded),
