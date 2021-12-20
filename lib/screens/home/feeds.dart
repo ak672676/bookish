@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:breview/components/RouteAnimation.dart';
 import 'package:breview/models/review.dart';
 import 'package:breview/screens/home/create_review.dart';
+import 'package:breview/utils/crud.dart';
 import 'package:breview/widgets/reviewItem.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class FeedsPage extends StatefulWidget {
 
 class _FeedsPageState extends State<FeedsPage> {
   List<Review> reviews = [];
+  CrudMethods crud = new CrudMethods();
 
   final CollectionReference reviewCollection =
       FirebaseFirestore.instance.collection('review');
@@ -24,23 +26,17 @@ class _FeedsPageState extends State<FeedsPage> {
   @override
   void initState() {
     super.initState();
-    loadData();
+    // loadData();
   }
 
   // Future<List<Review>> loadData() async {
-  loadData() async {
-    final jsonData =
-        await rootBundle.loadString("assets/files/reviewData.json");
-    final list = json.decode(jsonData) as List<dynamic>;
-    reviews = list.map((e) => Review.fromJson(e)).toList();
-    setState(() {});
-
-    //Testing
-
-    // reviewCollection.doc("2q7PVII7pC7I3Ez5K8JD").get().then((value) {
-    //   print(value.data());
-    // });
-  }
+  // loadData() async {
+  //   final jsonData =
+  //       await rootBundle.loadString("assets/files/reviewData.json");
+  //   final list = json.decode(jsonData) as List<dynamic>;
+  //   reviews = list.map((e) => Review.fromJson(e)).toList();
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +125,8 @@ class _FeedsPageState extends State<FeedsPage> {
                   readOnly: true,
                   onTap: () {
                     print("On tap post...");
-                    Navigator.of(context).push(FadeRoute(page: CreateReview()));
+                    Navigator.of(context)
+                        .push(FadeRoute(page: CreateReview(false, null)));
                   },
                   decoration: InputDecoration(
                     hintText: 'Add your story on your reads...',
@@ -146,12 +143,43 @@ class _FeedsPageState extends State<FeedsPage> {
                 ),
               ),
               SizedBox(height: 20),
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: reviews.length,
-                  itemBuilder: (context, index) =>
-                      ReviewItem(review: reviews[index]))
+              // ListView.builder(
+              //     physics: NeverScrollableScrollPhysics(),
+              //     shrinkWrap: true,
+              //     itemCount: reviews.length,
+              //     itemBuilder: (context, index) =>
+              //         ReviewItem(review: reviews[index]))
+              Container(
+                child: FutureBuilder(
+                    future: crud.getReviews(),
+                    builder: (context, AsyncSnapshot<dynamic> snap) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          StreamBuilder(
+                              stream: snap.data,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.docs.length,
+                                      itemBuilder: (context, index) {
+                                        Review r = Review.fromJson(
+                                            snapshot.data.docs[index].data(),
+                                            snapshot.data.docs[index].id);
+                                        return ReviewItem(review: r);
+                                      });
+                                } else {
+                                  return Container(
+                                      alignment: Alignment.center,
+                                      child: CircularProgressIndicator());
+                                }
+                              }),
+                        ],
+                      );
+                    }),
+              ),
             ],
           )),
         ),

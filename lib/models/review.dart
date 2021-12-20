@@ -8,20 +8,25 @@ class Review {
   List<String> comments;
   String bookImage;
   String bookTitle;
+  String author;
+  String createdAt;
 
-  Review(
-      {this.id,
-      this.reviewerId,
-      this.reviewerProfileName,
-      this.reviewerProfileImage,
-      this.likes,
-      this.review,
-      this.comments,
-      this.bookImage,
-      this.bookTitle});
+  Review({
+    this.id,
+    this.reviewerId,
+    this.reviewerProfileName,
+    this.reviewerProfileImage,
+    this.likes,
+    this.review,
+    this.comments,
+    this.bookImage,
+    this.bookTitle,
+    this.author,
+    this.createdAt,
+  });
 
-  Review.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  Review.fromJson(Map<String, dynamic> json, String id) {
+    id = id;
     reviewerId = json['reviewerId'];
     reviewerProfileName = json['reviewerProfileName'];
     reviewerProfileImage = json['reviewerProfileImage'];
@@ -30,6 +35,8 @@ class Review {
     comments = json['comments'].cast<String>();
     bookImage = json['bookImage'];
     bookTitle = json['bookTitle'];
+    author = json['author'];
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +50,9 @@ class Review {
     data['comments'] = this.comments;
     data['bookImage'] = this.bookImage;
     data['bookTitle'] = this.bookTitle;
+    data['author'] = this.author;
+    data['createdAt'] = this.createdAt;
+
     return data;
   }
 }

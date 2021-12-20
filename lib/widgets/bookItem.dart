@@ -1,6 +1,7 @@
 import 'package:breview/components/RouteAnimation.dart';
 import 'package:breview/models/book.dart';
 import 'package:breview/screens/home/book_detail_page.dart';
+import 'package:breview/screens/home/create_review.dart';
 import 'package:flutter/material.dart';
 
 class BookItem extends StatelessWidget {
@@ -53,7 +54,11 @@ class BookItem extends StatelessWidget {
                     ],
                   ),
                   ElevatedButton(
-                      onPressed: () {}, child: Text("Give your review")),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(FadeRoute(page: CreateReview(true, book)));
+                      },
+                      child: Text("Give your review")),
                 ],
               ),
             )

@@ -1,4 +1,9 @@
 import 'dart:io';
+import 'package:breview/components/RouteAnimation.dart';
+import 'package:breview/models/book.dart';
+import 'package:breview/models/review.dart';
+import 'package:breview/screens/home/home_tab.dart';
+import 'package:breview/utils/crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
@@ -6,7 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
 class CreateReview extends StatefulWidget {
-  const CreateReview({Key key}) : super(key: key);
+  // const CreateReview({Key key}) : super(key: key);
+  final bool isFromBook;
+  final Book book;
+  const CreateReview(this.isFromBook, this.book);
 
   @override
   _CreateReviewState createState() => _CreateReviewState();
@@ -101,6 +109,12 @@ class _CreateReviewState extends State<CreateReview> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isFromBook) {
+      title = widget.book.bookTitle;
+      author = widget.book.author;
+      imgURL = widget.book.bookImage;
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -129,28 +143,40 @@ class _CreateReviewState extends State<CreateReview> {
                   SizedBox(height: 10),
                   GestureDetector(
                     child: () {
-                      if (imgFile == null) {
-                        return Icon(
-                          Icons.add_a_photo,
-                          size: 70,
-                          color: Colors.amber[400],
-                        );
-                      } else {
-                        // return Image.network(
-                        //   "https://5.imimg.com/data5/WC/ML/MY-68231406/romantic-novels-500x500.jpg",
-                        //   height: 200,
-                        //   width: MediaQuery.of(context).size.width,
-                        //   fit: BoxFit.scaleDown,
-                        // );
-                        return Image.file(
-                          imgFile,
+                      if (widget.isFromBook) {
+                        return Image.network(
+                          widget.book.bookImage,
                           height: 200,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.scaleDown,
                         );
+                      } else {
+                        if (imgFile == null) {
+                          return Icon(
+                            Icons.add_a_photo,
+                            size: 70,
+                            color: Colors.amber[400],
+                          );
+                        } else {
+                          // return Image.network(
+                          //   "https://5.imimg.com/data5/WC/ML/MY-68231406/romantic-novels-500x500.jpg",
+                          //   height: 200,
+                          //   width: MediaQuery.of(context).size.width,
+                          //   fit: BoxFit.scaleDown,
+                          // );
+                          return Image.file(
+                            imgFile,
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.scaleDown,
+                          );
+                        }
                       }
                     }(),
                     onTap: () {
+                      if (widget.isFromBook) {
+                        return;
+                      }
                       print(imgFile);
                       showOptionsDialog(context);
                       print("Image change..");
@@ -169,6 +195,8 @@ class _CreateReviewState extends State<CreateReview> {
                           title = value;
                         });
                       },
+                      enabled: widget.isFromBook ? false : true,
+                      initialValue: title,
                       cursorColor: Colors.amber,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
@@ -189,6 +217,8 @@ class _CreateReviewState extends State<CreateReview> {
                           author = value;
                         });
                       },
+                      enabled: widget.isFromBook ? false : true,
+                      initialValue: author,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: 'Author',
@@ -253,16 +283,34 @@ class _CreateReviewState extends State<CreateReview> {
 
   saveReview() {
     print("Submit Post");
-    print(imgURL);
-    db.collection("reviews").add({
-      "bookTitle": title,
-      "bookAuthor": author,
-      "review": review,
-      "imgURL": imgURL,
-      "reviewDatetime": DateTime.now().millisecondsSinceEpoch.toString(),
-    }).then((value) {
-      print(value.id);
-      Navigator.of(context).pop();
-    });
+    // print();
+    Review review = Review(
+        bookTitle: title,
+        author: author,
+        bookImage: imgURL,
+        review: this.review,
+        reviewerId: "SdZlYdSyYQgPAbNHM8DdNWSJH5C2",
+        reviewerProfileName: "ak672676",
+        reviewerProfileImage:
+            "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+        comments: [],
+        id: null,
+        likes: [],
+        createdAt: DateTime.now().toUtc().millisecondsSinceEpoch.toString());
+
+    CrudMethods.createReview(review);
+
+    Navigator.of(context).push(FadeRoute(page: HomeTab()));
+    // print(imgURL);
+    // db.collection("reviews").add({
+    //   "bookTitle": title,
+    //   "bookAuthor": author,
+    //   "review": review,
+    //   "imgURL": imgURL,
+    //   "reviewDatetime": DateTime.now().millisecondsSinceEpoch.toString(),
+    // }).then((value) {
+    //   print(value.id);
+    //   Navigator.of(context).pop();
+    // });
   }
 }

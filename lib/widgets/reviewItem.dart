@@ -72,24 +72,42 @@ class ReviewItem extends StatelessWidget {
               ),
               Text(
                 review.review,
+                maxLines: 3,
                 style: TextStyle(color: Colors.white54, fontSize: 15),
               ),
               SizedBox(
                 height: 2.0,
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.thumb_up_alt_rounded,
-                  color: Colors.grey,
-                ),
-                contentPadding: EdgeInsets.all(0),
-                title: Text(
-                  "Comments...",
-                  style: TextStyle(
-                    color: Colors.white60,
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.thumb_up_alt_rounded,
+                    color: Colors.grey,
                   ),
-                ),
-              ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "15",
+                    style: TextStyle(
+                      color: Colors.white60,
+                      fontSize: 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Text(
+                    "Comments...",
+                    style: TextStyle(
+                      color: Colors.white60,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              )
             ],
           )),
     );
