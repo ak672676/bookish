@@ -10,6 +10,10 @@ class CrudMethods {
     return FirebaseFirestore.instance.collection('review').snapshots();
   }
 
+  getCommets() async {
+    return FirebaseFirestore.instance.collection('review').snapshots();
+  }
+
   static void createReview(Review review) {
     FirebaseFirestore.instance.collection("review").add(review.toJson());
   }

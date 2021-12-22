@@ -66,14 +66,10 @@ class _SplashScreenState extends State<SplashScreen> {
         Future.delayed(Duration(seconds: 1), () {
           Navigator.of(_scaffoldKey.currentContext)
               .pushReplacement(FadeRoute(page: PhoneLoginScreen()));
-          // Navigator.of(_scaffoldKey.currentContext)
-          //     .pushReplacement(FadeRoute(page: CreateReview()));
         });
       }
       if (state == PhoneAuthState.Verified) {
         Future.delayed(Duration(seconds: 1), () {
-          // Navigator.of(_scaffoldKey.currentContext)
-          //     .pushReplacement(FadeRoute(page: PhoneLoginScreen()));
           Navigator.of(Navcontext).pushReplacement(FadeRoute(page: HomeTab()));
         });
       }

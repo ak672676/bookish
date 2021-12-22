@@ -179,8 +179,6 @@ class _OTPPageState extends State<OTPPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                print('Button pressed ...');
-                                print(otp);
                                 otpSubmit(otp);
                               },
                               child: Text(
@@ -213,13 +211,12 @@ class _OTPPageState extends State<OTPPage> {
     LoginProvider.stateStream.listen((state) {
       if (state == PhoneAuthState.Verified) {
         FocusScope.of(context).unfocus();
-        print("called");
+
         Navigator.of(_scaffoldKey.currentContext)
             .pushReplacement(MaterialPageRoute(builder: (_) {
           return HomeTab();
         }));
       } else if (state == PhoneAuthState.newUser) {
-        print(state);
         Navigator.of(_scaffoldKey.currentContext)
             .pushReplacement(SlideRightRoute(
                 page: HomeTab(

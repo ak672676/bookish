@@ -245,19 +245,14 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   startPhoneAuth(String phone, BuildContext navcontext) {
     LoginProvider.startAuth(phoneNumber: "+91" + phone);
     LoginProvider.stateStream.listen((state) {
-      print("Listening from Phone Login Page.....");
-      print(state);
-      print("------------");
-
       if (state == PhoneAuthState.CodeSent) {
         Navigator.of(_scaffoldKey.currentContext)
             .pushReplacement(SlideRightRoute(page: OTPPage()));
       }
       if (state == PhoneAuthState.Failed) {
-        print("phone auth failed......");
-        // debugPrint("Seems there is an issue with it");
-        Navigator.of(_scaffoldKey.currentContext)
-            .pushReplacement(SlideRightRoute(page: PhoneLoginScreen()));
+        debugPrint("Seems there is an issue with it");
+        // Navigator.of(_scaffoldKey.currentContext)
+        //     .pushReplacement(SlideRightRoute(page: PhoneLoginScreen()));
       }
     });
   }

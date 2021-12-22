@@ -1,4 +1,6 @@
+import 'package:breview/components/RouteAnimation.dart';
 import 'package:breview/models/review.dart';
+import 'package:breview/screens/home/review_detail_page.dart';
 import "package:flutter/material.dart";
 
 class ReviewItem extends StatelessWidget {
@@ -39,58 +41,73 @@ class ReviewItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Image.network(
-                review.bookImage,
-                height: 220,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.scaleDown,
+              GestureDetector(
+                onTap: () {
+                  print("tapped");
+                  Navigator.of(context).push(
+                      SlideRightRoute(page: ReviewDetailPage(review: review)));
+                },
+                child: Column(
+                  children: [
+                    Image.network(
+                      review.bookImage,
+                      height: 220,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.scaleDown,
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Center(
+                      child: Text(review.bookTitle,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                    ),
+                    // Row(
+                    //   children: [
+                    //     Badge(
+                    //       shape: BadgeShape.square,
+                    //       badgeColor: Colors.deepPurple,
+                    //       borderRadius: BorderRadius.circular(8),
+                    //       badgeContent:
+                    //           Text('BADGE', style: TextStyle(color: Colors.white)),
+                    //     ),
+                    //   ],
+                    // )
+                    SizedBox(
+                      height: 2.0,
+                    ),
+                    Text(
+                      review.review,
+                      maxLines: 3,
+                      style: TextStyle(color: Colors.white54, fontSize: 15),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Center(
-                child: Text(review.bookTitle,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-              ),
-              // Row(
-              //   children: [
-              //     Badge(
-              //       shape: BadgeShape.square,
-              //       badgeColor: Colors.deepPurple,
-              //       borderRadius: BorderRadius.circular(8),
-              //       badgeContent:
-              //           Text('BADGE', style: TextStyle(color: Colors.white)),
-              //     ),
-              //   ],
-              // )
               SizedBox(
                 height: 2.0,
               ),
-              Text(
-                review.review,
-                maxLines: 3,
-                style: TextStyle(color: Colors.white54, fontSize: 15),
-              ),
-              SizedBox(
-                height: 2.0,
-              ),
-
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.thumb_up_alt_rounded,
-                    color: Colors.grey,
+                  GestureDetector(
+                    onTap: () {
+                      print("tapped like");
+                    },
+                    child: Icon(
+                      Icons.thumb_up_alt_rounded,
+                      color: Colors.amber,
+                    ),
                   ),
                   SizedBox(
                     width: 5,
                   ),
                   Text(
-                    "15",
+                    review.likes.length.toString(),
                     style: TextStyle(
                       color: Colors.white60,
                       fontSize: 15,
